@@ -9,11 +9,11 @@ end
 
 class Board
   def initialize
-    @space = Array.new(12) { Array.new(4) }
+    @guesses = Array.new(12) { Array.new(4) }
     @answer = Array.new(4)
   end
   def check_correct
-    for array in @space
+    for array in @guesses
       array == @answer ? true : false
     end
   end
@@ -42,6 +42,9 @@ class Computer
     4.times { @select_space.push(colours.sample) }
     return @select_space
   end
+  def hint
+    for array in @guesses
 
+# Compare latest guess in guesses vs @answer
 
 
