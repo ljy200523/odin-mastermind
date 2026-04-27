@@ -17,13 +17,16 @@ class Board
       array == @answer ? true : false
     end
   end
+  def print_board
+    p @guesses
+  end
 end
 
 class Player
   def initialize
   end
   def guess(first, second, third, fourth)
-    for array in arrays 
+    for array in arrays
       if array.empty?
         array.push(first, second, third, fourth)
         break
@@ -36,15 +39,25 @@ class Computer
   def initialize
   end
   colours = Blue, Orange, Green, Purple, Pink, Brown
-  def select
+  def get_answer
     colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
-    @select_space = []
-    4.times { @select_space.push(colours.sample) }
-    return @select_space
+    @computer_answer = []
+    4.times { @computer_answer.push(colours.sample) }
+    return @computer_answer
   end
-  def hint
-    for array in @guesses
-
-# Compare latest guess in guesses vs @answer
+  colour = Red, White, None
+  def hint # Compare latest guess in guesses vs @answer
+    for guess in @guesses
+      if (guess & @answer).any? #if share any element
+        for i in 0..3
+          if guess[i] == answer[i]
+            puts "White"
+          else puts "Red"
+          end
+        end
+      else puts "None"
+      end
+    end
+  end
 
 
