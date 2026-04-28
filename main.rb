@@ -1,4 +1,5 @@
 class Peg
+  attr_accessor :colour, :type
   def initialize(colour, type)
     @colour = colour
     @type = type
@@ -8,6 +9,7 @@ class Peg
 end
 
 class Board
+  attr_accessor :guesses, :answer
   def initialize
     @guesses = Array.new(12) { Array.new(4) }
     @answer = Array.new(4)
@@ -26,9 +28,9 @@ class Player
   def initialize
   end
   def guess(first, second, third, fourth)
-    for array in arrays
-      if array.empty?
-        array.push(first, second, third, fourth)
+    for guess in @guesses
+      if guess.empty?
+        guess.push(first, second, third, fourth)
         break
       end
     end
@@ -47,16 +49,14 @@ class Computer
   end
   colour = Red, White, None
   def hint # Compare latest guess in guesses vs @answer
-    for guess in @guesses
-      if (guess & @answer).any? #if share any element
-        for i in 0..3
-          if guess[i] == answer[i]
-            puts "White"
-          else puts "Red"
-          end
+    if (guess.uniq.last & @answer).any? #if share any element
+      for i in 0..3
+        if guess[i] == answer[i]
+          puts "White"
+        else puts "Red"
         end
-      else puts "None"
       end
+    else puts "None"
     end
   end
 
