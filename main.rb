@@ -67,6 +67,10 @@ class Computer
   end
 end
 
+class Mastermind
+  def initialize
+  end
+end
 
 guess = [[1, 2, 3, 4], [1, 3], []]
 answer = [4, 3, 2, 1]
