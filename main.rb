@@ -27,7 +27,7 @@ end
 class Player
   def initialize
   end
-  def guess(first, second, third, fourth)
+  def get_guess(first, second, third, fourth)
     for guess in @guesses
       if guess.empty?
         guess.push(first, second, third, fourth)
@@ -49,11 +49,17 @@ class Computer
   end
   colour = ["Red", "White", "None"]
   def hint # Compare latest guess in guesses vs @answer
-    if (guess.reject { |subarray| subarray.nil? || subarray.empty? }.last & @answer).any? #if share any element
+    last_guess = guess.reject { |subarray| subarray.nil? || subarray.empty? }.last 
+    if (last_guess & @answer).any? #if share any element
       for i in 0..3
-        if guess[i] == answer[i]
+        if last_guess[i] == answer[i]
           puts "White"
-        else puts "Red"
+        else
+          for j in 0..3
+            if last_guess[j] == answer[i]
+              puts "Red"
+            end
+          end
         end
       end
     else puts "None"
@@ -66,5 +72,4 @@ guess = [[1, 2, 3, 4], [1, 3], []]
 answer = [4, 3, 2, 1]
 
 p guess.reject { |subarray| subarray.nil? || subarray.empty? }.last
-
 puts (guess.reject { |subarray| subarray.nil? || subarray.empty? }.last & answer).any?
