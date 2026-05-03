@@ -49,7 +49,7 @@ class Computer
   end
   colour = ["Red", "White", "None"]
   def hint # Compare latest guess in guesses vs @answer
-    last_guess = guess.reject { |subarray| subarray.nil? || subarray.empty? }.last 
+    last_guess = guess.reject { |subarray| subarray.nil? || subarray.empty? }.last #last valid subarray
     if (last_guess & @answer).any? #if share any element
       for i in 0..3
         if last_guess[i] == answer[i]
@@ -70,10 +70,30 @@ end
 class Mastermind
   def initialize
   end
+  peg, computer, board, player
+  answer = Computer.get_answer
+  board.answer.push(answer)
+  12.times do |index|
+    guess = player.get_guess()
+    board.guesses.push(guess)
+    board.print_board
+    if board.check_answer
+      puts "You're correct, Player wins"
+      break
+    elsif index < 11
+      Computer.hint
+      next
+    else
+      puts "The Computer wins"
+      board.print_board
+      board.print_answer
+      break
+    end
+  end
 end
 
 guess = [[1, 2, 3, 4], [1, 3], []]
 answer = [4, 3, 2, 1]
 
-p guess.reject { |subarray| subarray.nil? || subarray.empty? }.last
-puts (guess.reject { |subarray| subarray.nil? || subarray.empty? }.last & answer).any?
+p guess.reject { |subarray| subarray.nil? || subarray.empty? }.last #prints last valid subarray
+puts (guess.reject { |subarray| subarray.nil? || subarray.empty? }.last & answer).any? #prints boolean result of last valid subarray & answer
