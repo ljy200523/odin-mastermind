@@ -84,30 +84,31 @@ end
 
 class Mastermind
   def initialize
+    @board = Board.new
+    @computer = Computer.new
+    @player = Player.new
   end
   # peg, computer, board, player
-  board = Board.new
-  computer = Computer.new
-  player = Player.new
-  board.insert_answer(computer.get_answer)
-  12.times do |index|
-    board.insert_guess(player.get_guess)
-    board.print_board
-    if board.check_correct
-      puts "You're correct, Player wins"
-      break
-    elsif index < 11
-      Computer.hint
-      next
-    else
-      puts "The Computer wins"
-      board.print_board
-      board.print_answer
-      break
+  def play
+    @board.insert_answer(@computer.get_answer)
+    12.times do |index|
+      @board.insert_guess(@player.get_guess)
+      @board.print_board
+      if @board.check_correct
+        puts "You're correct, Player wins"
+        break
+      elsif index < 11
+        @computer.hint
+        next
+      else
+        puts "The Computer wins"
+        @board.print_board
+        @board.print_answer
+        break
+      end
     end
   end
 end
 
-
-
-# Mastermind.new
+game = Mastermind.new
+game.play
