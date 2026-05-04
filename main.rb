@@ -67,16 +67,21 @@ class Computer
     if (player_guess & @answer).any? #if share any element
       for i in 0..3
         if player_guess[i] == @answer[i]
+          puts "#{i}"
           puts "White"
-        else
+        elsif
           for j in 0..3
-            if player_guess[j] == @answer[i]
+            if player_guess[i] == @answer[j]
+              puts "#{j}"
               puts "Red"
             end
           end
+        else
+          puts "None"
         end
       end
-    else puts "None"
+    else
+      4.times { puts "None" }
     end
   end
 end
