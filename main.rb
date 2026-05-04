@@ -11,7 +11,7 @@ end
 class Board
   attr_accessor :guesses, :answer
   def initialize
-    @guesses = Array.new(12) { Array.new(4) }
+    @guesses = Array.new(12) { Array.new } #To initialize an empty array
     @answer = Array.new(4)
   end
   def check_correct
@@ -22,18 +22,33 @@ class Board
   def print_board
     p @guesses
   end
+  def insert_guess(new_guess)
+    first, second, third, fourth = new_guess.split(" ")
+    puts "first: #{first}"
+    puts "second: #{second}"
+    puts "third: #{third}"
+    puts "fourth: #{fourth}"
+    for guess in @guesses
+      if guess.empty?
+        guess.push(first, second, third, fourth)
+        puts "Guess: #{guess}"
+        break
+      end
+    end
+  end
+  def insert_answer(computer_answer)
+    @answer = computer_answer
+    p "Computer Answer: #{@answer}"
+  end
 end
 
 class Player
   def initialize
   end
-  def get_guess(first, second, third, fourth)
-    for guess in @guesses
-      if guess.empty?
-        guess.push(first, second, third, fourth)
-        break
-      end
-    end
+  def get_guess()
+    puts "Guess: Blue, Orange, Green, Purple, Pink, Brown"
+    response = gets
+    return response
   end
 end
 
@@ -70,14 +85,15 @@ end
 class Mastermind
   def initialize
   end
-  peg, computer, board, player
-  answer = Computer.get_answer
-  board.answer.push(answer)
+  # peg, computer, board, player
+  board = Board.new
+  computer = Computer.new
+  player = Player.new
+  board.insert_answer(computer.get_answer)
   12.times do |index|
-    guess = player.get_guess()
-    board.guesses.push(guess)
+    board.insert_guess(player.get_guess)
     board.print_board
-    if board.check_answer
+    if board.check_correct
       puts "You're correct, Player wins"
       break
     elsif index < 11
@@ -92,8 +108,6 @@ class Mastermind
   end
 end
 
-guess = [[1, 2, 3, 4], [1, 3], []]
-answer = [4, 3, 2, 1]
 
-p guess.reject { |subarray| subarray.nil? || subarray.empty? }.last #prints last valid subarray
-puts (guess.reject { |subarray| subarray.nil? || subarray.empty? }.last & answer).any? #prints boolean result of last valid subarray & answer
+
+# Mastermind.new
