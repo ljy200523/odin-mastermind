@@ -15,22 +15,21 @@ class Board
     @answer = Array.new(4)
   end
   def check_correct
-    for array in @guesses
-      array == @answer ? true : false
+    last_guess = @guesses.reject { |subarray| subarray.nil? || subarray.empty? }.last #last valid subarray
+    if last_guess == @answer
+      return true
+    else
+      return false
     end
   end
   def print_board
     p @guesses
   end
   def insert_guess(new_guess)
-    first, second, third, fourth = new_guess.split(" ")
-    puts "first: #{first}"
-    puts "second: #{second}"
-    puts "third: #{third}"
-    puts "fourth: #{fourth}"
+    # first, second, third, fourth = new_guess.split(" ")
     for guess in @guesses
       if guess.empty?
-        guess.push(first, second, third, fourth)
+        guess.replace(new_guess)
         puts "Guess: #{guess}"
         break
       end
@@ -38,7 +37,7 @@ class Board
   end
   def insert_answer(computer_answer)
     @answer = computer_answer
-    p "Computer Answer: #{@answer}"
+    puts "Computer Answer: #{@answer}"
   end
 end
 
@@ -46,9 +45,10 @@ class Player
   def initialize
   end
   def get_guess()
-    puts "Guess: Blue, Orange, Green, Purple, Pink, Brown"
-    response = gets
-    return response
+    puts "Colours: Blue, Orange, Green, Purple, Pink, Brown"
+    print "Guess: "
+    response = gets.split
+    return response #returns array
   end
 end
 
@@ -58,20 +58,19 @@ class Computer
   colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
   def get_answer
     colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
-    @computer_answer = []
-    4.times { @computer_answer.push(colours.sample) }
-    return @computer_answer
+    @answer = []
+    4.times { @answer.push(colours.sample) }
+    return @answer
   end
   colour = ["Red", "White", "None"]
-  def hint # Compare latest guess in guesses vs @answer
-    last_guess = guess.reject { |subarray| subarray.nil? || subarray.empty? }.last #last valid subarray
-    if (last_guess & @answer).any? #if share any element
+  def hint(player_guess) # Compare current_player_guess vs @answer
+    if (player_guess & @answer).any? #if share any element
       for i in 0..3
-        if last_guess[i] == answer[i]
+        if player_guess[i] == @answer[i]
           puts "White"
         else
           for j in 0..3
-            if last_guess[j] == answer[i]
+            if player_guess[j] == @answer[i]
               puts "Red"
             end
           end
@@ -92,13 +91,14 @@ class Mastermind
   def play
     @board.insert_answer(@computer.get_answer)
     12.times do |index|
-      @board.insert_guess(@player.get_guess)
+      current_guess = @player.get_guess
+      @board.insert_guess(current_guess)
       @board.print_board
       if @board.check_correct
         puts "You're correct, Player wins"
         break
       elsif index < 11
-        @computer.hint
+        @computer.hint(current_guess)
         next
       else
         puts "The Computer wins"
