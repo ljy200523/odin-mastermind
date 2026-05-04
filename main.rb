@@ -69,13 +69,9 @@ class Computer
         if player_guess[i] == @answer[i]
           puts "#{i}"
           puts "White"
-        elsif
-          for j in 0..3
-            if player_guess[i] == @answer[j]
-              puts "#{j}"
-              puts "Red"
-            end
-          end
+        elsif @answer.include?(player_guess[i])
+          puts "#{i}"
+          puts "Red"
         else
           puts "None"
         end
