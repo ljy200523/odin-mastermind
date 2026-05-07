@@ -12,7 +12,7 @@ class Mastermind
   # peg, computer, board, player
   def play
     game_mode = @player.get_game_mode
-    if game_mode.downcase.strip == "guesser"
+    if game_mode.downcase.strip.start_with?("g")
       @board.insert_answer(@computer.get_computer_answer)
       12.times do |index|
         current_guess = @player.get_player_guess
@@ -31,7 +31,7 @@ class Mastermind
           break
         end
       end
-    else
+    elsif game_mode.downcase.strip.start_with?("c")
       @board.insert_answer(@player.get_player_answer)
       12.times do |index|
         current_guess = @player.get_computer_guess
