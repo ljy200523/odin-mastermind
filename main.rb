@@ -64,20 +64,24 @@ class Computer
   end
   colour = ["Red", "White", "None"]
   def hint(player_guess) # Compare current_player_guess vs @answer
-    if (player_guess & @answer).any? #if share any element
-      for i in 0..3
-        if player_guess[i] == @answer[i]
-          puts "#{i}"
-          puts "White"
-        elsif @answer.include?(player_guess[i])
-          puts "#{i}"
-          puts "Red"
-        else
-          puts "None"
-        end
+    local_answer = @answer.dup
+    p "local_answer #{local_answer}"
+    player_guess.each_with_index do |element, index|
+      if player_guess[index] == local_answer[index]
+        puts "#{index}"
+        puts "White"
+        local_answer[index] = nil
+        p "local_answer #{local_answer}"
+      elsif local_answer.include?(player_guess[index])
+        puts "#{index}"
+        puts "Red"
+        local_answer[index] = nil
+        p "local_answer #{local_answer}"
+      else
+        puts "#{index}"
+        puts "None"
+        p "local_answer #{local_answer}"
       end
-    else
-      4.times { puts "None" }
     end
   end
 end
