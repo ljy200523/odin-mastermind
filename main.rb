@@ -9,32 +9,35 @@ class Mastermind
     @computer = Computer.new
     @player = Player.new
   end
-  # peg, computer, board, player
-  def hint(guess, answer) # Compare current_player_guess vs @answer
+  def hint(guess, answer)
     local_answer = answer.dup
+    hint_list = []
     p "local_answer #{local_answer}"
     guess.each_with_index do |element, index|
       if guess[index] == local_answer[index]
         # puts "#{index}"
-        puts "White"
+        hint_list.push("White")
         local_answer[index] = nil
         # p "local_answer #{local_answer}"
       elsif local_answer.include?(guess[index])
         # puts "#{index}"
-        puts "Red"
+        hint_list.push("Red")
         local_answer[index] = nil
         # p "local_answer #{local_answer}"
       else
         # puts "#{index}"
-        puts "None"
+        hint_list.push("None")
         # p "local_answer #{local_answer}"
       end
     end
+    puts hint_list
+    return hint_list
   end
   def play
     game_mode = @player.get_game_mode
     if game_mode.downcase.strip.start_with?("g") #PLAYER IS GUESSING
-      @board.insert_answer(@computer.get_computer_answer)
+      answer = @computer.get_computer_answer
+      @board.insert_answer(answer)
       12.times do |index|
         current_guess = @player.get_player_guess
         @board.insert_guess(current_guess)
@@ -43,7 +46,7 @@ class Mastermind
           puts "You're correct, Player wins"
           break
         elsif index < 11
-          hint(current_guess, @computer.get_computer_answer)
+          hint(current_guess, answer)
           next
         else
           puts "The Computer wins"
