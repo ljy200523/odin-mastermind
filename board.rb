@@ -25,8 +25,11 @@ class Board
       end
     end
   end
-  def insert_answer(computer_answer)
-    @answer = computer_answer
-    puts "Computer Answer: #{@answer}"
+  def insert_answer(mastermind_answer)
+    @answer = mastermind_answer
+    puts "The Answer: #{@answer}"
+  end
+  def print_answer
+    puts "The Answer: #{@answer}"
   end
 end

@@ -8,32 +8,32 @@ class Computer
     4.times { @answer.push(colours.sample) }
     return @answer
   end
-  colour = ["Red", "White", "None"]
-  def hint(player_guess) # Compare current_player_guess vs @answer
-    local_answer = @answer.dup
-    p "local_answer #{local_answer}"
-    player_guess.each_with_index do |element, index|
-      if player_guess[index] == local_answer[index]
-        puts "#{index}"
-        puts "White"
-        local_answer[index] = nil
-        p "local_answer #{local_answer}"
-      elsif local_answer.include?(player_guess[index])
-        puts "#{index}"
-        puts "Red"
-        local_answer[index] = nil
-        p "local_answer #{local_answer}"
-      else
-        puts "#{index}"
-        puts "None"
-        p "local_answer #{local_answer}"
+  def get_computer_guess()
+    @first_guess = true
+    colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
+    @guess = []
+    next_guess = []
+    if @first_guess
+      4.times { @guess.push(colours.sample) }
+      @first_guess = false
+      return @guess #returns array
+    else #2nd guess onwards
+      hint.each_with_index do |element, index|
+        if element == "White"
+          next_guess[index] = guess[index]
+        elsif element == "Red"
+          if next_guess.any? { |element| element == nil }
+            next_guess[element] = guess[index]
+          end
+        else
+          colours.delete("#{guess[index]}")
+        end
       end
     end
-  end
-  def get_computer_guess()
-    colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
-    @answer = []
-    4.times { @answer.push(colours.sample) }
-    return @answer #returns array
+    next_guess.each_with_index do |element, index|
+      if element == nil
+        next_guess[index] = colours.sample
+      end
+    end
   end
 end
