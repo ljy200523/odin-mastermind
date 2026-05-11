@@ -8,11 +8,12 @@ class Computer
     4.times { @answer.push(colours.sample) }
     return @answer
   end
-  def get_computer_guess()
+  def get_computer_guess(*hint)
     @first_guess = true
     colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
     @guess = []
-    next_guess = []
+    @next_guess = []
+    puts hint
     if @first_guess
       4.times { @guess.push(colours.sample) }
       @first_guess = false
@@ -35,5 +36,7 @@ class Computer
         next_guess[index] = colours.sample
       end
     end
+    @guess = next_guess
+    next_guess = nil
   end
 end

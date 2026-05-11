@@ -9,9 +9,9 @@ class Mastermind
     @computer = Computer.new
     @player = Player.new
   end
-  def hint(guess, answer)
+  def get_hint(guess, answer)
     local_answer = answer.dup
-    hint_list = []
+    hint_list = Array.new(4, nil)
     p "local_answer #{local_answer}"
     guess.each_with_index do |element, index|
       if guess[index] == local_answer[index]
@@ -22,19 +22,21 @@ class Mastermind
       end
     end
     guess.each_with_index do |element, index|
-      if local_answer.include?(guess[index])
-        # puts "#{index}"
-        hint_list[index] = "Red"
-        red_position = local_answer.index(guess[index])
-        local_answer[red_position] = nil
-        p "local_answer #{local_answer}"
-      elsif local_answer[index] != nil
-        # puts "#{index}"
-        hint_list[index] = "None"
-        p "local_answer #{local_answer}"
+      if hint_list[index].nil?
+        if local_answer.include?(guess[index])
+          # puts "#{index}"
+          hint_list[index] = "Red"
+          red_position = local_answer.index(guess[index])
+          local_answer[red_position] = nil
+          p "local_answer #{local_answer}"
+        elsif hint_list[index] == nil #to prevent Overwritting "White" with "None" & include "None" when local_answer == nil
+          # puts "#{index}"
+          hint_list[index] = "None"
+          p "local_answer #{local_answer}"
+        end
       end
     end
-    puts hint_list
+    p hint_list
     return hint_list
   end
   def play
@@ -50,7 +52,7 @@ class Mastermind
           puts "You're correct, Player wins"
           break
         elsif index < 11
-          hint(current_guess, answer)
+          get_hint(current_guess, answer)
           next
         else
           puts "The Computer wins"
@@ -70,7 +72,7 @@ class Mastermind
           puts "Computer is correct, Computer wins"
           break
         elsif index < 11
-          hint(current_guess, answer)
+          get_hint(current_guess, answer)
           next
         else
           puts "The Player wins"
