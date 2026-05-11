@@ -16,18 +16,22 @@ class Mastermind
     guess.each_with_index do |element, index|
       if guess[index] == local_answer[index]
         # puts "#{index}"
-        hint_list.push("White")
+        hint_list[index] = "White"
         local_answer[index] = nil
-        # p "local_answer #{local_answer}"
-      elsif local_answer.include?(guess[index])
+        p "local_answer #{local_answer}"
+      end
+    end
+    guess.each_with_index do |element, index|
+      if local_answer.include?(guess[index])
         # puts "#{index}"
-        hint_list.push("Red")
-        local_answer[index] = nil
-        # p "local_answer #{local_answer}"
-      else
+        hint_list[index] = "Red"
+        red_position = local_answer.index(guess[index])
+        local_answer[red_position] = nil
+        p "local_answer #{local_answer}"
+      elsif local_answer[index] != nil
         # puts "#{index}"
-        hint_list.push("None")
-        # p "local_answer #{local_answer}"
+        hint_list[index] = "None"
+        p "local_answer #{local_answer}"
       end
     end
     puts hint_list
