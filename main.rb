@@ -39,7 +39,7 @@ class Mastermind
     p hint_list
     return hint_list
   end
-  def play
+  def play 
     game_mode = @player.get_game_mode
     if game_mode.downcase.strip.start_with?("g") #PLAYER IS GUESSING
       answer = @computer.get_computer_answer
@@ -64,15 +64,16 @@ class Mastermind
     elsif game_mode.downcase.strip.start_with?("c") #PLAYER IS CREATING
       answer = @player.get_player_answer
       @board.insert_answer(answer)
+      hint = nil
       12.times do |index|
-        current_guess = @computer.get_computer_guess
+        current_guess = @computer.get_computer_guess(hint)
         @board.insert_guess(current_guess)
         @board.print_board
         if @board.check_correct
           puts "Computer is correct, Computer wins"
           break
         elsif index < 11
-          get_hint(current_guess, answer)
+          hint = get_hint(current_guess, answer)
           next
         else
           puts "The Player wins"
