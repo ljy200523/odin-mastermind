@@ -54,6 +54,8 @@ class Mastermind
         break
       elsif index < 11
         hint = get_hint(current_guess, answer)
+        puts "Press any key to continue"
+        gets
         next
       else
         statement = game_mode ? "The Computer wins" : "The Player wins"
