@@ -41,11 +41,11 @@ class Mastermind
   end
   def play
     game_mode = @player.get_game_mode #true -> player guessing, false -> computer guessing
-    answer = game_mode ? @computer.get_computer_answer : @player.get_player_answer
+    answer = game_mode ? @computer.get_computer_answer : @player.get_player_input
     @board.insert_answer(answer)
     hint = nil
     12.times do |index|
-      current_guess = game_mode ? @player.get_player_guess : @computer.get_computer_guess(hint)
+      current_guess = game_mode ? @player.get_player_input : @computer.get_computer_guess(hint)
       @board.insert_guess(current_guess)
       @board.print_board
       if @board.check_correct

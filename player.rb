@@ -13,7 +13,7 @@ class Player
       end
     end
   end
-  def get_player_guess()
+  def get_player_input()
     loop do
       puts "Colours: Blue, Orange, Green, Purple, Pink, Brown"
       print "Guess: "
@@ -37,16 +37,10 @@ class Player
         end
       end
       if response.any? { |element| element == nil}
-        puts "Invalid Guess"
+        puts "Invalid Input"
       else
         return response #returns array
       end
     end
-  end
-  def get_player_answer()
-    puts "Colours: Blue, Orange, Green, Purple, Pink, Brown"
-    print "Answer: "
-    response = gets.split
-    return response #returns array
   end
 end
