@@ -39,48 +39,28 @@ class Mastermind
     p hint_list
     return hint_list
   end
-  def play 
-    game_mode = @player.get_game_mode
-    if game_mode.downcase.strip.start_with?("g") #PLAYER IS GUESSING
-      answer = @computer.get_computer_answer
-      @board.insert_answer(answer)
-      12.times do |index|
-        current_guess = @player.get_player_guess
-        @board.insert_guess(current_guess)
+  def play
+    game_mode = @player.get_game_mode #true -> player guessing, false -> computer guessing
+    answer = game_mode ? @computer.get_computer_answer : @player.get_player_answer
+    @board.insert_answer(answer)
+    hint = nil
+    12.times do |index|
+      current_guess = game_mode ? @player.get_player_guess : @computer.get_computer_guess(hint)
+      @board.insert_guess(current_guess)
+      @board.print_board
+      if @board.check_correct
+        statement = game_mode ? "You're correct, Player wins" : "Computer is correct, Computer wins"
+        puts statement
+        break
+      elsif index < 11
+        hint = get_hint(current_guess, answer)
+        next
+      else
+        statement = game_mode ? "The Computer wins" : "The Player wins"
+        puts statement
         @board.print_board
-        if @board.check_correct
-          puts "You're correct, Player wins"
-          break
-        elsif index < 11
-          get_hint(current_guess, answer)
-          next
-        else
-          puts "The Computer wins"
-          @board.print_board
-          @board.print_answer
-          break
-        end
-      end
-    elsif game_mode.downcase.strip.start_with?("c") #PLAYER IS CREATING
-      answer = @player.get_player_answer
-      @board.insert_answer(answer)
-      hint = nil
-      12.times do |index|
-        current_guess = @computer.get_computer_guess(hint)
-        @board.insert_guess(current_guess)
-        @board.print_board
-        if @board.check_correct
-          puts "Computer is correct, Computer wins"
-          break
-        elsif index < 11
-          hint = get_hint(current_guess, answer)
-          next
-        else
-          puts "The Player wins"
-          @board.print_board
-          @board.print_answer
-          break
-        end
+        @board.print_answer
+        break
       end
     end
   end
