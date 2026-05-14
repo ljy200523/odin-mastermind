@@ -2,7 +2,7 @@ class Computer
   def initialize
     @first_guess = true
     @guess = []
-    @next_guess = []
+    @next_guess = {"Blue": 0, "Orange": 0, "Green": 0, "Purple": 0, "Pink": 0, "Brown": 0}
     @colours = ["Blue", "Orange", "Green", "Purple", "Pink", "Brown"]
   end
   def get_computer_answer
@@ -14,7 +14,7 @@ class Computer
   def get_computer_guess(*hint)
     next_guess = Array.new(4, nil)
     hint = hint.flatten
-    p "hint argument: #{hint}"
+    # p "hint argument: #{hint}"
     if @first_guess
       4.times { @guess.push(@colours.sample) }
       @first_guess = false

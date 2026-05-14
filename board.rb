@@ -16,7 +16,6 @@ class Board
     p @guesses
   end
   def insert_guess(new_guess)
-    # first, second, third, fourth = new_guess.split(" ")
     for guess in @guesses
       if guess.empty?
         guess.replace(new_guess)

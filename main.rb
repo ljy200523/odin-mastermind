@@ -12,13 +12,13 @@ class Mastermind
   def get_hint(guess, answer)
     local_answer = answer.dup
     hint_list = Array.new(4, nil)
-    p "local_answer #{local_answer}"
+    # p "local_answer #{local_answer}"
     guess.each_with_index do |element, index|
       if guess[index] == local_answer[index]
         # puts "#{index}"
         hint_list[index] = "White"
         local_answer[index] = nil
-        p "local_answer #{local_answer}"
+        # p "local_answer #{local_answer}"
       end
     end
     guess.each_with_index do |element, index|
@@ -28,11 +28,11 @@ class Mastermind
           hint_list[index] = "Red"
           red_position = local_answer.index(guess[index])
           local_answer[red_position] = nil
-          p "local_answer #{local_answer}"
+          # p "local_answer #{local_answer}"
         elsif hint_list[index] == nil #to prevent Overwritting "White" with "None" & include "None" when local_answer == nil
           # puts "#{index}"
           hint_list[index] = "None"
-          p "local_answer #{local_answer}"
+          # p "local_answer #{local_answer}"
         end
       end
     end
