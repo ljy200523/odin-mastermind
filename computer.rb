@@ -25,20 +25,31 @@ class Computer
           next_guess[index] = @guess[index]
         end
       end
-      nil_positions = next_guess.each_index.select { |index| next_guess[index] == nil }
-      hint.each_with_index do |element, index|
-        if element == "Red"
-          if next_guess[index].nil?
-            next_guess[nil_positions.sample] = @guess[index]
+      # Collect Red colors and identify colors to delete
+      red_pegs = []
+      colors_in_guess = @guess.uniq
+      colors_in_guess.each do |color|
+        indices = @guess.each_index.select { |index| @guess[index] == color }
+        color_hints = indices.map { |index| hint[index] }
+        if color_hints.all? { |element| element == "None"}
+          @colours.delete(color)
+        else
+          indices.each do |i|
+            red_pegs << @guess[i] if hint[i] == "Red"
           end
-        elsif element == "None"
-          @colours.delete("#{@guess[index]}")
         end
       end
-    end
-    next_guess.each_with_index do |element, index|
-      if element == nil
-        next_guess[index] = @colours.sample
+      #Fill Reds into remaining nil spots
+      nil_positions = next_guess.each_index.select { |index| next_guess[index].nil? }.shuffle
+      red_pegs.each do |color|
+        pos = nil_positions.pop
+        next_guess[pos] = color if pos
+      end
+      #Fill remaining nil spots with random samples
+      next_guess.each_with_index do |element, index|
+        if element.nil?
+          next_guess[index] = @colours.sample
+        end
       end
     end
     @guess = next_guess
